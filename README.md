@@ -122,4 +122,19 @@ REST 웹 서비스를 검증하기 위한 라이브러리
 
 어떤 테스트 도구를 사용하는지에는 정답이 없고, 시스템마다 다를 것이라 생각하지만..
 
-Spring Rest Docs 를 사용하면서 문서 제작을 위한 지속적인 테스트를 위해서는 개인적으로는 MockMvc를 적용하는 것이 좋아보인다.
+Spring Rest Docs를 사용하면서 문서 제작을 위한 지속적인 테스트를 위해서는 개인적으로는 MockMvc를 적용하는 것이 좋아보인다.
+
+
+# 참고
+
+https://victorydntmd.tistory.com/341 - Swagger를 사용한 API 문서 자동화
+
+https://hudi.blog/spring-rest-docs/ - Spring REST Docs를 사용한 API 문서 자동화
+
+https://techblog.woowahan.com/2597/ - Spring REST Docs 적용
+
+https://jojoldu.tistory.com/289 - 개발자는 마크다운이 편한데 왜 Spring-Rest-Docs에서는 Ascii Doc으로 주로 문서화를 할까?( + 마크다운으로 구현해보기)
+
+https://tecoble.techcourse.co.kr/post/2020-08-19-rest-assured-vs-mock-mvc/ - MockMVC vs RestAssured
+
+https://beomseok95.tistory.com/293 - BDD 가 무엇일까?
