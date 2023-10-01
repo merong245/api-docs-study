@@ -46,7 +46,7 @@ public class BoardController {
             @ApiResponse(code = 404, message = "페이지를 못찾겠어여 ㅜㅜ"),
             @ApiResponse(code = 500, message = "아무래도 서버에러인거 같아요")
     })
-    @GetMapping("/")
+    @GetMapping("")
     public Map<String, String> selectBoard(
             /*
                 파라미터에 대한 정보 작성
