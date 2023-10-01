@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.15'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2' // 1. Asciidoctor 컨버팅하고 Build 폴더에 복사하기 위한 플러그인
 }
 
 group = 'com.example'
@@ -13,6 +13,7 @@ java {
 }
 
 configurations {
+    asciidoctorExt // 2. Config 지정 
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -23,7 +24,7 @@ repositories {
 }
 
 ext {
-    set('snippetsDir', file("build/generated-snippets"))
+    set('snippetsDir', file("build/generated-snippets")) // 4. snippet 파일이 저장될 경로 등록
 }
 
 dependencies {
@@ -34,18 +35,39 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor' // 3. adoc 파일에서 사용할 snippet 속성을 build/generated-snippets를 가르키도록 지정
 
     // swagger
     compileOnly 'io.springfox:springfox-swagger2:2.9.2'
     compileOnly 'io.springfox:springfox-swagger-ui:2.9.2'
 }
 
-tasks.named('test') {
-    outputs.dir snippetsDir
+test {
+    outputs.dir snippetsDir // 5. 출력 디렉토리 설정
     useJUnitPlatform()
 }
 
-tasks.named('asciidoctor') {
-    inputs.dir snippetsDir
-    dependsOn test
+asciidoctor {
+    configurations 'asciidoctorExt' // 6. asciidoctor에서 asciidoctorExt 사용하도록 설정
+    baseDirFollowsSourceFile() // 7. 다른 .adoc을 include 하는 경우 동일한 경로로 baseDir 사용하도록 설정(Gradle 6전까진 자동으로해줌)
+    inputs.dir snippetsDir // 8. input 디렉토리를 snippetDir로 설정
+    dependsOn test // 9. 이 task가 성공해야 다음 task가 실행가능
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs') // 10. 기존 경로의 파일이 계속 사용될 위험이 있어서 미리 지워주는 동작
+}
+
+task createDocument(type: Copy) { // 11. 실행 task 정의 type을 Copy로 정의, from에 위치한 파일을 into로 Copy
+    dependsOn asciidoctor // 12. Gradle build 시 asciiidoctor -> createDocument 순서로 동작
+    from file("bulid/docs/asciidoc")
+    into file("src/main/resouces/static")
+}
+
+bootJar {
+    dependsOn createDocument // 13. Gradle build 시 createDocument 진행 후 bootJar 동작
+    from("${asciidoctor.outputDir}"){ // 14. Gradle bulid 시 asciidoctor.outputDir에 Html생성하고 이것을 Jar안에 static/docs안에 복사
+        into 'static/docs'
+    }
 }
