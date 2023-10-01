@@ -61,8 +61,8 @@ asciidoctor.doFirst {
 
 task createDocument(type: Copy) { // 11. 실행 task 정의 type을 Copy로 정의, from에 위치한 파일을 into로 Copy
     dependsOn asciidoctor // 12. Gradle build 시 asciiidoctor -> createDocument 순서로 동작
-    from file("bulid/docs/asciidoc")
-    into file("src/main/resouces/static")
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static")
 }
 
 bootJar {
