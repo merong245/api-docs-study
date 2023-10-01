@@ -12,8 +12,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 
-@Configuration
-@EnableSwagger2 // Swagger2 버전 활성화 -> /swagger-ui.html에서 볼 수 있음
+//@Configuration
+//@EnableSwagger2 // Swagger2 버전 활성화 -> /swagger-ui.html에서 볼 수 있음
 public class SwaggerConfig {
 
     /*
