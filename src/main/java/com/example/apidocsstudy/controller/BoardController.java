@@ -1,5 +1,6 @@
 package com.example.apidocsstudy.controller;
 
+import com.example.apidocsstudy.dto.BoardDto;
 import com.example.apidocsstudy.service.BoardService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,7 @@ public class BoardController {
             @ApiResponse(code = 500, message = "아무래도 서버에러인거 같아요")
     })
     @GetMapping("")
-    public Map<String, String> selectBoard(
+    public BoardDto selectBoard(
             /*
                 파라미터에 대한 정보 작성
                 value : 파라미터 정보
